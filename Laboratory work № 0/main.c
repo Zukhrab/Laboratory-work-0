@@ -59,11 +59,41 @@ int* input_original_seq(int _number_)
 
 	_Seq_ = (int*)malloc(sizeof(int) * _number_);
 
-	printf("Original sequence --> ");
+	printf("Original sequence\n");
 	for (count = 0; count <= _number_ - 1; count++)
+	{
+		printf("\t");
 		_Seq_[count] = is_digit();
-
+	}
 	return _Seq_;
+}
+
+int size_array(int* _Seq_)
+{
+	int count = 0;
+	while (_Seq_[count])
+	{
+		//printf("%d\n", count);
+		//printf("%d\n", _Seq_[count]);
+		count++;
+	}
+	return count;
+}
+
+void output_modified_sequence(int* _Seq_, int _size_)
+{
+	int first, last;
+	int replace;
+	int count = 0;
+	int numberLength;
+	for (; count <= _size_; count++)
+	{
+		replace = _Seq_[count];
+		numberLength = lengthOfNumber(replace);
+		last = replace % 10;
+		first = 
+
+	}
 }
 
 
@@ -85,9 +115,11 @@ int main()
 	int* originalSeq = NULL;
 
 	originalSeq = input_original_seq(numberOfElements);
+	numberOfElements = size_array(originalSeq) - 1;
 	printf("%d\n", numberOfElements);
-	output_result_sequence(originalSeq, numberOfElements);
+	// output_result_sequence(originalSeq, numberOfElements);
 
+	int ss = 0;
 
 	return 0;
 }
