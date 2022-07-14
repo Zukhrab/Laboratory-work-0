@@ -2,124 +2,123 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int lengthOfNumber(int number)
+int getInt(int* a)
 {
-	int use_number = number;
-	int length = 0;
-	while (use_number)
-	{
-		use_number = use_number / 10;
-		length++;
-	}
-	return length;
-}
-
-
-int is_digit()
-{
-	int digit;
-	int check = 0;
+	int n;
 	do
 	{
-		int check = scanf("%d", &digit);
-		if (check)
-			return digit;
-		else
+		n = scanf("%d", a, sizeof(int));
+		if (n < 0) return 0;
+		if (n == 0)
 		{
 			printf("Error, repeat !\n");
-			scanf("%*c");
-			// return 1;
+			scanf("%*c", 0);
 		}
-	} while (!check);
-	return 0;
+	} while (n == 0);
+	return 1;
 }
 
-//int get_int() {
-//	int n;
-//	int* a = NULL;
-//	do {
-//		n = scanf("%d", a);
-//		if (n < 0)
-//			return 0;
-//		if (n == 0) {
-//			printf("%s\n", "Error! Repeat input");
-//			scanf("%*c");
-//			return -1;
-//		}
-//	} while (n == 0);
-//	return 1;
-//}
-
-int* input_original_seq(int _number_)
+int myPow(int x, int y)
 {
-	int* _Seq_;
 	int count;
-	printf("Input number of elements in your sequence --> ");
-	_number_ = is_digit();
+	for (count = 0; count < y - 1; count++)
+		x = x * 10;
 
-	_Seq_ = (int*)malloc(sizeof(int) * _number_);
-
-	printf("Original sequence\n");
-	for (count = 0; count <= _number_ - 1; count++)
-	{
-		printf("\t");
-		_Seq_[count] = is_digit();
-	}
-	return _Seq_;
+	return x;
 }
 
-int size_array(int* _Seq_)
+int swap(int number)
 {
-	int count = 0;
-	while (_Seq_[count])
+	int tmp = number;
+	int first, last, len = 0;
+
+	last = tmp % 10;
+
+	while (tmp)
 	{
-		//printf("%d\n", count);
-		//printf("%d\n", _Seq_[count]);
-		count++;
+		first = tmp;
+		tmp = tmp / 10;
+		len += 1;
 	}
-	return count;
+
+	if (len == 1)
+		return number;
+
+	int powItem1 = myPow(first, len);
+	int powItem2 = myPow(last, len);
+	number = number - powItem1 - last;
+	number = number + first + powItem2;
+
+	return number;
 }
 
-void output_modified_sequence(int* _Seq_, int _size_)
+void changeArray(int* array, int n)
 {
-	int first, last;
-	int replace;
-	int count = 0;
-	int numberLength;
-	for (; count <= _size_; count++)
-	{
-		replace = _Seq_[count];
-		numberLength = lengthOfNumber(replace);
-		last = replace % 10;
-		first = 
-
-	}
+	int count;
+	for (count = 0; count < n; count++)
+		array[count] = swap(array[count]);
 }
 
 
-void output_result_sequence(int* _Seq_, int _digit)
+void arraySort(int* array, int n)
 {
-	int counter;
-	for (counter = 0; counter < _digit; counter++)
+	int tmp;
+	int stop;
+
+	for (int i = n - 1; i >= 0; i--)
 	{
-		int tmp = _Seq_[counter];
-		int lengthNumber = lengthOfNumber(tmp);
-		printf("%d ", lengthNumber);
+		stop = 1;
+		for (int j = 0; j < i; j++)
+		{
+			if (array[j] > array[j + 1])
+			{
+				tmp = array[j];
+				array[j] = array[j + 1];
+				array[j + 1] = tmp;
+				stop = 0;
+			}
+		}
+		if (stop == 1)
+			break;
 	}
 }
-
 
 int main()
 {
-	int numberOfElements = 0;
-	int* originalSeq = NULL;
+	int n;
+	int count;
 
-	originalSeq = input_original_seq(numberOfElements);
-	numberOfElements = size_array(originalSeq) - 1;
-	printf("%d\n", numberOfElements);
-	// output_result_sequence(originalSeq, numberOfElements);
+	puts("\nEnter number of elements");
+	if ((getInt(&n)) == 0)
+		return 0;
 
-	int ss = 0;
+	puts("\nEnter your array");
+	int* in_arr = (int*)malloc(sizeof(int) * n);
+	for (count = 0; count < n; count++)
+	{
+		if ((getInt(&in_arr[count])) == 0)
+			return 0;
+		if (in_arr[count] < 0)
+			return 0;
+	}
+	puts("");
 
-	return 0;
+	printf("Your array --> ");
+	for (count = 0; count < n; count++)
+		printf("%d ", in_arr[count]);
+	puts("");
+
+	changeArray(in_arr, n);
+	printf("Before sorting --> ");
+	for (count = 0; count < n; count++)
+		printf("%d ", in_arr[count]);
+	puts("");
+
+	arraySort(in_arr, n);
+	printf("After sorting --> ");
+	for (count = 0; count < n; count++)
+		printf("%d ", in_arr[count]);
+	puts("");
+
+	return 1;
 }
